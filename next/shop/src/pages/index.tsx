@@ -1,9 +1,12 @@
-import Image from "next/image";
-import { GetServerSideProps } from "next";
-import Link from 'next/link'
+import { Fragment } from "react";
 
 import { useKeenSlider } from "keen-slider/react";
 import 'keen-slider/keen-slider.min.css';
+
+import { GetStaticProps } from "next";
+import Image from "next/image";
+import Link from 'next/link'
+import Head from "next/head";
 
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe"
@@ -15,9 +18,9 @@ interface HomeProps {
     id: string;
     name: string;
     imageUrl: string;
-    price: number;
+    price: string;
   }[]
-}
+};
 
 export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
@@ -28,35 +31,42 @@ export default function Home({ products }: HomeProps) {
   });
 
   return (
-    <HomeContainer ref={sliderRef} className="keen-slider">
-      {products.map(product => {
-        return (
-          <Link href={`/product/${product.id}`} key={product.id}>
-            <Product className="keen-slider__slide">
-              <Image src={product.imageUrl} width={520} height={480} alt="" />
-      
-              <footer>
-                <strong>{product.name}</strong>
-                <span>{product.price}</span>
-              </footer>
-            </Product>            
-          </Link>
-        )
-      })}
-    </HomeContainer>
-  )
-}
+    <Fragment>
+      <Head>
+        <title>Home | Next Shop</title>
+      </Head>
 
-//GetStaticProps => deve ser usado em páginas que serão estáticas, 
-//por exemplo uma Home ou LadingPage, onde não sofrem alterações constantes
-//(não funciona em ambiente de desenvolvimento e não acesso a cookies, infos do user, acesso a nada de requisição)
-export const getServerSideProps: GetServerSideProps = async () => {
+      <HomeContainer ref={sliderRef} className="keen-slider">
+        {products.map(product => {
+          return (
+            <Link href={`/product/${product.id}`} key={product.id} prefetch={false}>
+              <Product className="keen-slider__slide">
+                <Image src={product.imageUrl} width={520} height={480} alt="" />
+        
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>            
+            </Link>
+          )
+        })}
+      </HomeContainer>
+    </Fragment>
+  )
+};
+
+/* 
+  GetStaticProps => deve ser usado em páginas que serão estáticas, 
+  por exemplo, uma Home ou LadingPage, onde não ocorrem alterações constantes.
+*/
+export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price']
   })
 
   const products = response.data.map(product => {
-    const price = product.default_price as Stripe.Price
+    const price = product.default_price as Stripe.Price;
 
     return {
       id: product.id,
@@ -67,12 +77,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
         currency: 'BRL',
       }).format(price.unit_amount as number / 100),
     }
-  })
+  });
 
   return {
     props: {
       products
     },
-    // revalidate: 60 * 60 * 2, //2hours
+    revalidate: 60 * 60 * 2, // 2 hours
   }
-}
+};

@@ -1,23 +1,104 @@
-import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product";
-import { useRouter } from "next/router";
+import { Fragment, useState } from "react";
+import axios from "axios";
 
-export default function Product() {
-  const { query } = useRouter(); //Hook para pegar o parâmetro da rota
+import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product";
+
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Image from "next/image";
+import Head from "next/head";
+
+import { stripe } from "@/lib/stripe";
+import Stripe from "stripe";
+
+interface ProductProps {
+  product: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: string;
+    description: string;
+    defaultPriceId: string;
+  }
+};
+
+export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
+
+  async function handleBuyButton() {
+    try {
+      setIsCreatingCheckoutSession(true);
+
+      const response = await axios.post('/api/checkout', {
+        priceId: product.defaultPriceId,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      // Opção: Conectar com uma ferramenta de observabilidade(DataDog / Sentry)
+      setIsCreatingCheckoutSession(false);
+
+      alert('Falha ao redirecionar ao checkout!');
+    }
+  };
 
   return (
-    <ProductContainer>
-      <ImageContainer>
+    <Fragment>
+      <Head>
+        <title>{product.name} | Next Shop</title>
+      </Head>
 
-      </ImageContainer>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} alt="imagem do produto" width={520} height={480} />
+        </ImageContainer>
 
-      <ProductDetails>
-        <h1>T-shirt X</h1>
-        <span>R$200,00</span>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
 
-        <p>Blusa T-Shirt, apresenta manga curta, decote redondo, toque suave ao corpo, estampa frontal com detalhe em metal. Hoje em dia, uma blusinha básica não é sinônimo de um look básico. As camisetas, ou t-shirts, são indispensáveis para qualquer mulher moderna. Apesar de ser uma peça inicialmente descontraída, ela pode ser usada para transformar seu visual, de casual para fashion. Por ser uma peça que combina com tudo, use a sua criatividade para criar looks incríveis com uma t-shirt.</p>
+          <p>{product.description}</p>
 
-        <button>Comprar agora</button>
-      </ProductDetails>
-    </ProductContainer>
+          <button disabled={isCreatingCheckoutSession} onClick={handleBuyButton}>Comprar agora</button>
+        </ProductDetails>
+      </ProductContainer>
+    </Fragment>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { id: 'prod_OsWS4KqDndDPZm' } },
+    ],
+    fallback: 'blocking',
+  }
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const productId = String(params?.id);
+
+  const product = await stripe.products.retrieve(productId, {
+    expand: ['default_price'],
+  });
+
+  const price = product.default_price as Stripe.Price;
+
+  return {
+    props: {
+      product: {
+        id: product.id,
+        name: product.name,
+        imageUrl: product.images[0],
+        price: new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(price.unit_amount as number / 100),
+        description: product.description,
+        defaultPriceId: price.id
+      }
+    },
+    revalidate: 60 * 60 * 1 // 1 hours
+  }
 };

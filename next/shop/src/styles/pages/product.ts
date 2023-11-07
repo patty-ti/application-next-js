@@ -8,7 +8,7 @@ export const ProductContainer = styled('main', {
 
   maxWidth: 1180,
   margin: '0 auto'
-})
+});
 
 export const ImageContainer = styled('div', {
   width: '100%',
@@ -25,7 +25,7 @@ export const ImageContainer = styled('div', {
   img: {
     objectFit: 'cover',
   }
-})
+});
 
 export const ProductDetails = styled('div', {
   display: 'flex',
@@ -61,8 +61,13 @@ export const ProductDetails = styled('div', {
     fontWeight: 'bold',
     fontSize: '$md',
 
-    '&:hover': {
+    '&:disabled': {
+      opacity: 0.6,
+      cursor: 'not-allowed',
+    },
+
+    '&:not(:disabled):hover': {
       backgroundColor: '$green300',
     }
   },
-})
+});

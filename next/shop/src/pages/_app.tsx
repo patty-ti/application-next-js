@@ -14,6 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
 			<Header>
 				<Image src={iconIgnite} alt="logo" />
 			</Header>
+			
 			<Component {...pageProps} />
 		</Container>
 	);

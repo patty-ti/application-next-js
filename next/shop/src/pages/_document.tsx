@@ -1,9 +1,11 @@
-//o <Main /> serve como o <div id=root></div>
-//o <NextScript /> tem que ficar no final da tag body e ele serve como o script
-//após alterar esse arquivo devemos parar e subir a aplicação novamente
-//se não aplicar as alterações devemos excluir a pasta next, que serve como um cache e só subir a aplicação novamente
-//Atenção: aqui fica tudo que vai ser aplicado em toda a aplicação, deixar ele mais simples, sem css e demais coisas
-//ao importar <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} /> conseguimos garantir que teremos o css mesmo com o JS desabilitado
+/* 
+	- O <Main /> serve como o <div id=root></div>
+	- O <NextScript /> tem que ficar no final da tag body e ele serve como o script
+	- Após alterar esse arquivo devemos parar e subir a aplicação novamente
+	- Se não aplicar as alterações devemos excluir a pasta next, que serve como um cache e só subir a aplicação novamente
+	- Atenção: aqui fica tudo que vai ser aplicado em toda a aplicação, deixar ele mais simples, sem css e demais coisas
+	- Ao importar <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} /> conseguimos garantir que teremos o css mesmo com o JS desabilitado
+ */
 
 import { Html, Head, Main, NextScript } from "next/document";
 import { getCssText } from '../styles';

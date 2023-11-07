@@ -1,38 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# E-commerce com Next.JS
 
-## Getting Started
+Este é um sistema de e-commerce. A aplicação foi desenvolvida em React.JS, Typescript, Next.JS e Stripe. 
+v16.15.0 para funcionar.
 
-First, run the development server:
+Índice:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- [E-commerce com Next.JS](#e-commerce-com-next.js)
+  - [:books: Visão Geral](#books-visão-geral)
+  - [:hammer: Funcionalidades do projeto](#hammer-funcionalidades-do-projeto)
+  - [:computer: Tecnologias Utilizadas](#computer-tecnologias-utilizadas)
+  - [🛠️ Pré-requisitos](#️-pré-requisitos)
+  - [:scroll: Instalação](#scroll-instalação)
+  - [:paperclip: Dependências](#paperclip-dependências)
+  - [:file_folder: Uso](#file_folder-uso)
+  - [Desenvolvido por](#desenvolvido-por)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## :books: Visão Geral
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+O Sistema desenvolvido é uma aplicação web que permite aos usuários a visualização de um carrossel de prosutos e efetuar a compra do produto selecionado, sendo então redirecionado para a página de pagamento do Stripe e após a inserção dos dados e confirmação do pagamento é apresentada a tela de sucesso da transação. 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## :hammer: Funcionalidades do projeto
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Cadastro de novos produtos
+- Home Page com apresentação de carrossel de produtos
+- Página de detalhes do produto selecionado e botão de compra
+- Redirecionamento para tela de pagamento do Stripe
+- Tela de sucesso após confirmação do pagamento
+- Opção de retorno a Home após pagamento
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## :computer: Tecnologias Utilizadas
 
-## Learn More
+- **React.JS**: Uma biblioteca JavaScript para construir interfaces de usuário.
+- **Typescript**: Um superconjunto tipado de JavaScript.
+- **Next.JS**: Um framework React, com foco em produção e eficiência, busca reunir diversas funcionalidades como renderização hibrida e estática de conteúdo.
+- **Styled Components**: Uma biblioteca para estilizar componentes usando tagged template literals.
+- **Axios**: Uma biblioteca para fazer requisições HTTP.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Pré-requisitos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Node.js v16.15.0
+- Yarn (recomendado, mas você pode usar npm)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## :scroll: Instalação
 
-## Deploy on Vercel
+1. Clone este repositório:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   git clone https://github.com/patty-ti/application-next-js.git
+   yarn run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## :paperclip: Dependências
+
+yarn install
+
+## :file_folder: Uso
+- Inicie a aplicação: yarn run dev
+
+A aplicação estará disponível em http://localhost:3000.
+
+## Desenvolvido por
+
+Desenvolvido por Patricia Rodrigues(Desenvolvedora Front-end)
