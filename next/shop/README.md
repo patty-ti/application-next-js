@@ -1,7 +1,6 @@
 # E-commerce com Next.JS
 
 Este é um sistema de e-commerce. A aplicação foi desenvolvida em React.JS, Typescript, Next.JS e Stripe. 
-v16.15.0 para funcionar.
 
 Índice:
 
