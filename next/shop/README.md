@@ -46,7 +46,6 @@ O Sistema desenvolvido é uma aplicação web que permite aos usuários a visual
 
    ```bash
    git clone https://github.com/patty-ti/application-next-js.git
-   yarn run dev
    ```
 
 ## :paperclip: Dependências
